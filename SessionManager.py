@@ -2,7 +2,9 @@ import sublime
 import sublime_plugin
 
 from .modules import messages
+from .modules import serialize
 from .modules import settings
+from .modules.session import Session
 
 
 class SaveSession(sublime_plugin.ApplicationCommand):
@@ -21,7 +23,8 @@ class SaveSession(sublime_plugin.ApplicationCommand):
         return "placeholder"
 
     def save_session(self, session_name):
-        pass
+        session = Session.save(session_name, sublime.windows())
+        serialize.dump(session_name, session)
 
     def is_enabled(self):
         windows = sublime.windows()
