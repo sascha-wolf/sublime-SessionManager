@@ -1,0 +1,6 @@
+[
+	{
+		"caption": "Session Manager: Save Session",
+		"command": "save_session"
+	}
+]
