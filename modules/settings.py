@@ -2,9 +2,6 @@ import sublime
 
 _settings_file = "SessionManager.sublime-settings"
 _subl_settings = {}
-_default_settings = {
-    "session_path": ""
-}
 
 
 def load():
@@ -14,4 +11,4 @@ def load():
 
 
 def get(key):
-    return _subl_settings.get(key, _default_settings[key])
+    return _subl_settings.get(key)
