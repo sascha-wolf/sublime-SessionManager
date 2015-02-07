@@ -1,0 +1,10 @@
+{
+	// If session_path is null, the sessions will be saved in your sublime User folder in sessions
+	"session_path": null,
+
+	// The dateformat which shall be used to generate the default session name;
+	// Example result: 15-02-07T15-09-32
+	// take a look at the python docs for details:
+	// https://docs.python.org/3.3/library/datetime.html#strftime-strptime-behavior
+	"session_name_dateformat": "%y-%m-%dT%H-%M-%S"
+}
