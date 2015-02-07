@@ -2,10 +2,13 @@ import sublime
 import sublime_plugin
 
 from .modules import messages
+from .modules import settings
 
 
 class SaveSession(sublime_plugin.ApplicationCommand):
     def run(self):
+        settings.load()
+
         sublime.active_window().show_input_panel(
             messages.dialog("session_name"),
             self.generate_name(),
