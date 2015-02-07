@@ -6,7 +6,9 @@ import os
 from ..json import encoder
 from ..json import decoder
 
-_DEFAULT_PATH = ['User', 'sessions']
+from . import settings
+
+_DEFAULT_PATH = os.path.join('User', 'sessions')
 _DEFAULT_EXTENSION = 'json'
 
 
@@ -22,8 +24,12 @@ def load(name):
         return json.load(f, cls=decoder.SessionDecoder)
 
 
-def _generate_path(name, path=_DEFAULT_PATH):
-    folder = os.path.join(sublime.packages_path(), *_DEFAULT_PATH)
+def _generate_path(name):
+    path = settings.get('session_path')
+    if not path:
+        path = _DEFAULT_PATH
+
+    folder = os.path.join(sublime.packages_path(), path)
 
     # Ensure the folder exists
     os.makedirs(folder, exist_ok=True)
