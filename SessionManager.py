@@ -1,6 +1,8 @@
 import sublime
 import sublime_plugin
 
+from datetime import datetime
+
 from .modules import messages
 from .modules import serialize
 from .modules import settings
@@ -20,7 +22,9 @@ class SaveSession(sublime_plugin.ApplicationCommand):
         )
 
     def generate_name(self):
-        return "placeholder"
+        now = datetime.now()
+        timestamp = now.strftime(settings.get('session_name_dateformat'))
+        return '_'.join(['session', timestamp])
 
     def save_session(self, session_name):
         session = Session.save(session_name, sublime.windows())
