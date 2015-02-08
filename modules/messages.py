@@ -18,19 +18,28 @@ def get(group, key, *args):
     return str.format(messages[group][key], *args)
 
 
-def error(error_code):
+def error(error_key, *args):
+    if isinstance(error_key, int):
+        msg = _errno(error_key)
+    elif isinstance(error_key, str):
+        msg = _error(error_key)
+
+    return str.format(msg, *args)
+
+
+def _errno(error_code):
     try:
         msg = strerror(error_code)
     except ValueError:
-        msg = _error(error_code)
+        msg = messages["error"]["default"]
 
     return str.format(msg + " (errno: {})", error_code)
 
 
-def _error(error_code):
-    if error_code in messages["error"]:
-        msg = messages["error"][error_code]
-    else:
+def _error(error_key):
+    try:
+        msg = messages["error"][error_key]
+    except KeyError:
         msg = messages["error"]["default"]
 
     return msg
