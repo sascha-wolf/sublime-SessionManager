@@ -1,5 +1,6 @@
 import sublime
 
+import glob
 import json
 import os
 
@@ -22,6 +23,30 @@ def load(name):
     session_path = _generate_path(name)
     with open(session_path, 'r') as f:
         return json.load(f, cls=decoder.SessionDecoder)
+
+
+def delete(name):
+    session_path = _generate_path(name)
+    os.remove(session_path)
+
+
+def available():
+    paths = _available_paths()
+    files = [os.path.basename(p) for p in paths]
+    # Remove the extension
+    names = [f[:-len(_DEFAULT_EXTENSION)] for f in files]
+
+    return names
+
+
+def _available_paths():
+    session_folder = _generate_folder()
+    search_pattern = os.path.join(
+        session_folder,
+        ''.join(['*', _DEFAULT_EXTENSION])
+    )
+
+    return glob.glob(search_pattern)
 
 
 def _generate_path(name):

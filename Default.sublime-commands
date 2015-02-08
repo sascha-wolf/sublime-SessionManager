@@ -2,5 +2,9 @@
 	{
 		"caption": "Session Manager: Save Session",
 		"command": "save_session"
+	},
+	{
+		"caption": "Session Manager: Delete Session",
+		"command": "delete_session"
 	}
 ]

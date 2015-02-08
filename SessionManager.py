@@ -50,3 +50,31 @@ class SaveSession(sublime_plugin.ApplicationCommand):
     def is_saveable(window):
         return bool(window.views()) or bool(window.project_data())
 
+
+class ListSessionCommand:
+    def run(self):
+        self.session_names = serialize.available()
+        if not self.session_names:
+            sublime.message_dialog(messages.message("no_sessions"))
+            return
+
+        sublime.active_window().show_quick_panel(
+            self.session_names,
+            self._handle_selection
+        )
+
+    def _handle_selection(self, selected_index):
+        if selected_index < 0:
+            return
+
+        self.handle_session(self.session_names[selected_index])
+
+
+class DeleteSession(ListSessionCommand, sublime_plugin.ApplicationCommand):
+    def handle_session(self, session_name):
+        try:
+            serialize.delete(session_name)
+        except OSError as e:
+            error_message(e.errno)
+        else:
+            sublime.status_message(messages.message("deleted", session_name))

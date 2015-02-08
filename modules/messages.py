@@ -4,6 +4,10 @@ messages = {
     "dialog": {
         "session_name": "Enter session name:"
     },
+    "message": {
+        "no_sessions": "No sessions available.",
+        "deleted": "Deleted session '{}'."
+    },
     "error": {
         "default": "Unknown error!"
     }
@@ -34,3 +38,7 @@ def _error(error_code):
 
 def dialog(key, *args):
     return get("dialog", key, *args)
+
+
+def message(key, *args):
+    return get("message", key, *args)
