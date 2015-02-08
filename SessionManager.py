@@ -41,11 +41,12 @@ class SaveSession(sublime_plugin.ApplicationCommand):
     def is_enabled(self):
         windows = sublime.windows()
         for window in windows:
-            if is_saveable(window):
+            if self.is_saveable(window):
                 return True
 
         return False
 
+    @staticmethod
+    def is_saveable(window):
+        return bool(window.views()) or bool(window.project_data())
 
-def is_saveable(window):
-    return bool(window.views()) or bool(window.project_data())
