@@ -13,6 +13,16 @@ _DEFAULT_PATH = os.path.join('User', 'sessions')
 _DEFAULT_EXTENSION = '.sublime-session'
 
 
+def is_valid(name):
+    try:
+        open(name, 'w').close()
+        os.unlink(name)
+    except OSError:
+        return False
+    else:
+        return True
+
+
 def dump(name, session):
     session_path = _generate_path(name)
     with open(session_path, 'w') as f:

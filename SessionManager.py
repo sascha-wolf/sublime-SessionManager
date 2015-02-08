@@ -13,8 +13,8 @@ def plugin_loaded():
     settings.load()
 
 
-def error_message(errno):
-    sublime.error_message(messages.error(errno))
+def error_message(error_key, *args):
+    sublime.error_message(messages.error(error_key, *args))
 
 
 class SaveSession(sublime_plugin.ApplicationCommand):
@@ -32,6 +32,10 @@ class SaveSession(sublime_plugin.ApplicationCommand):
         return datetime.now().strftime(nameformat)
 
     def save_session(self, session_name):
+        if not serialize.is_valid(session_name):
+            error_message("invalid_name", session_name)
+            return
+
         session = Session.save(session_name, sublime.windows())
         try:
             serialize.dump(session_name, session)
