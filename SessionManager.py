@@ -28,9 +28,8 @@ class SaveSession(sublime_plugin.ApplicationCommand):
         )
 
     def generate_name(self):
-        now = datetime.now()
-        timestamp = now.strftime(settings.get('session_name_dateformat'))
-        return '_'.join(['session', timestamp])
+        nameformat = settings.get('session_name_dateformat')
+        return datetime.now().strftime(nameformat)
 
     def save_session(self, session_name):
         session = Session.save(session_name, sublime.windows())
