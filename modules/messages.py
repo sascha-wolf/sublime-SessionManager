@@ -1,3 +1,5 @@
+from os import strerror
+
 messages = {
     "dialog": {
         "session_name": "Enter session name:"
@@ -13,13 +15,21 @@ def get(group, key, *args):
 
 
 def error(error_code):
-    msg = None
+    try:
+        msg = strerror(error_code)
+    except ValueError:
+        msg = _error(error_code)
+
+    return str.format(msg + " (errno: {})", error_code)
+
+
+def _error(error_code):
     if error_code in messages["error"]:
         msg = messages["error"][error_code]
     else:
         msg = messages["error"]["default"]
 
-    return str.format(msg + " ({})", error_code)
+    return msg
 
 
 def dialog(key, *args):

@@ -13,6 +13,10 @@ def plugin_loaded():
     settings.load()
 
 
+def error_message(errno):
+    sublime.error_message(messages.error(errno))
+
+
 class SaveSession(sublime_plugin.ApplicationCommand):
     def run(self):
         sublime.active_window().show_input_panel(
@@ -30,7 +34,10 @@ class SaveSession(sublime_plugin.ApplicationCommand):
 
     def save_session(self, session_name):
         session = Session.save(session_name, sublime.windows())
-        serialize.dump(session_name, session)
+        try:
+            serialize.dump(session_name, session)
+        except OSError as e:
+            error_message(e.errno)
 
     def is_enabled(self):
         windows = sublime.windows()
