@@ -9,10 +9,12 @@ from .modules import settings
 from .modules.session import Session
 
 
+def plugin_loaded():
+    settings.load()
+
+
 class SaveSession(sublime_plugin.ApplicationCommand):
     def run(self):
-        settings.load()
-
         sublime.active_window().show_input_panel(
             messages.dialog("session_name"),
             self.generate_name(),
