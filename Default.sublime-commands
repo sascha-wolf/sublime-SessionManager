@@ -4,6 +4,10 @@
 		"command": "save_session"
 	},
 	{
+		"caption": "Session Manager: Load Session",
+		"command": "load_session"
+	},
+	{
 		"caption": "Session Manager: Delete Session",
 		"command": "delete_session"
 	}

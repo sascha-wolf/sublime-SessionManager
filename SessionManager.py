@@ -70,6 +70,16 @@ class ListSessionCommand:
         self.handle_session(self.session_names[selected_index])
 
 
+class LoadSession(ListSessionCommand, sublime_plugin.ApplicationCommand):
+    def handle_session(self, session_name):
+        try:
+            session = serialize.load(session_name)
+        except OSError as e:
+            error_message(e.errno)
+        else:
+            session.load()
+
+
 class DeleteSession(ListSessionCommand, sublime_plugin.ApplicationCommand):
     def handle_session(self, session_name):
         try:
