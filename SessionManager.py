@@ -34,6 +34,7 @@ class SaveSession(sublime_plugin.ApplicationCommand):
     def save_session(self, session_name):
         if not serialize.is_valid(session_name):
             error_message("invalid_name", session_name)
+            self.run()
             return
 
         session = Session.save(session_name, sublime.windows())
