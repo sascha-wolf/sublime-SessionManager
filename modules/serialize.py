@@ -9,7 +9,7 @@ from ..json import decoder
 from . import settings
 
 _DEFAULT_PATH = os.path.join('User', 'sessions')
-_DEFAULT_EXTENSION = 'json'
+_DEFAULT_EXTENSION = '.sublime-session'
 
 
 def dump(name, session):
@@ -25,17 +25,21 @@ def load(name):
 
 
 def _generate_path(name):
-    path = settings.get('session_path')
-    if not path:
-        path = _DEFAULT_PATH
+    return os.path.join(_generate_folder(), _generate_name(name))
 
-    folder = os.path.join(sublime.packages_path(), path)
+
+def _generate_folder():
+    folder = settings.get('session_path')
+    if folder:
+        folder = os.path.normpath(folder)
+    else:
+        folder = os.path.join(sublime.packages_path(), _DEFAULT_PATH)
 
     # Ensure the folder exists
     os.makedirs(folder, exist_ok=True)
 
-    return os.path.join(folder, _generate_name(name))
+    return folder
 
 
 def _generate_name(name, extension=_DEFAULT_EXTENSION):
-    return '.'.join([name, extension])
+    return ''.join([name, extension])
