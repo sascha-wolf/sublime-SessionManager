@@ -30,9 +30,9 @@ When you load a session you can continue your work as if nothing ever happened.
 
 The commands in question are:
 
-     Session Manager: Save Session
-     Session Manager: Load Session
-     Session Manager: Delete Session
+    Session Manager: Save Session
+    Session Manager: Load Session
+    Session Manager: Delete Session
 
 The default name for a session consists of the keyword __session__ and the __current timestamp__ (example: `session_15-03-13T15-37-22`). If you don't like the format you can configure it with via the `session_name_format` setting.
 
@@ -45,17 +45,19 @@ Configuration
 
 Just take a look at the default configuration file to learn about the available options:
 
-    {
-        // If session_path is null, the sessions will be saved in your sublime User folder in sessions
-        // (User/sessions)
-        "session_path": null,
+```js
+{
+    // If session_path is null, the sessions will be saved in your sublime User folder in sessions
+    // (User/sessions)
+    "session_path": null,
 
-        // The format which shall be used to generate the default session name;
-        // Example result: session_15-02-07T15-09-32
-        // take a look at the python docs for details:
-        // https://docs.python.org/3.3/library/datetime.html#strftime-strptime-behavior
-        "session_name_format": "session_%y-%m-%dT%H-%M-%S"
-    }
+    // The format which shall be used to generate the default session name;
+    // Example result: session_15-02-07T15-09-32
+    // take a look at the python docs for details:
+    // https://docs.python.org/3.3/library/datetime.html#strftime-strptime-behavior
+    "session_name_format": "session_%y-%m-%dT%H-%M-%S"
+}
+```
 
 
 Plans for the future
