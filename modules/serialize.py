@@ -14,9 +14,10 @@ _DEFAULT_EXTENSION = '.sublime-session'
 
 
 def is_valid(name):
+    session_path = _generate_path(name)
     try:
-        open(name, 'w').close()
-        os.unlink(name)
+        open(session_path, 'w').close()
+        os.unlink(session_path)
     except OSError:
         return False
     else:
