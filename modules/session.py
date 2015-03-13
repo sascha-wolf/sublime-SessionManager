@@ -41,7 +41,8 @@ class Window:
         self._load_views(st_window)
 
     def _load_project(self, st_window):
-        st_window.set_project_data(self.project)
+        hacked_project = st_utils.resolve_project_paths(self.project_path, self.project)
+        st_window.set_project_data(hacked_project)
 
     def _load_views(self, st_window):
         # Workaround: Sublime focus bug on new views (issue #39)
