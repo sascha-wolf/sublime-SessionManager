@@ -3,9 +3,9 @@
 	// (User/sessions)
 	"session_path": null,
 
-	// The dateformat which shall be used to generate the default session name;
-	// Example result: 15-02-07T15-09-32
+	// The format which shall be used to generate the default session name;
+	// Example result: session_15-02-07T15-09-32
 	// take a look at the python docs for details:
 	// https://docs.python.org/3.3/library/datetime.html#strftime-strptime-behavior
-	"session_name_dateformat": "session_%y-%m-%dT%H-%M-%S"
+	"session_name_format": "session_%y-%m-%dT%H-%M-%S"
 }
