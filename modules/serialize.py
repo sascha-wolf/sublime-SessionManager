@@ -72,7 +72,13 @@ def _generate_folder():
         folder = os.path.join(sublime.packages_path(), _DEFAULT_PATH)
 
     # Ensure the folder exists
-    os.makedirs(folder, exist_ok=True)
+    try:
+        os.makedirs(folder, exist_ok=True)
+    except FileExistsError:
+        # Issue 21082 (http://bugs.python.org/issue21082)
+        # Before Python 3.4.1, if exist_ok was True and the directory existed,
+        # makedirs() would still raise an error if mode did not match the mode of the existing directory
+        pass
 
     return folder
 
