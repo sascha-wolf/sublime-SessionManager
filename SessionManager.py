@@ -20,7 +20,7 @@ def error_message(error_key, *args):
 class SaveSession(sublime_plugin.ApplicationCommand):
     def run(self):
         sublime.active_window().show_input_panel(
-            messages.dialog("session_name"),
+            messages.dialog('session_name'),
             self.generate_name(),
             on_done=self.save_session,
             on_change=None,
@@ -33,7 +33,7 @@ class SaveSession(sublime_plugin.ApplicationCommand):
 
     def save_session(self, session_name):
         if not serialize.is_valid(session_name):
-            error_message("invalid_name", session_name)
+            error_message('invalid_name', session_name)
             self.run()
             return
 
@@ -61,7 +61,7 @@ class ListSessionCommand:
         self.args = args
         self.session_names = serialize.available()
         if not self.session_names:
-            sublime.message_dialog(messages.message("no_sessions"))
+            sublime.message_dialog(messages.message('no_sessions'))
             return
 
         sublime.active_window().show_quick_panel(
@@ -99,4 +99,4 @@ class DeleteSession(ListSessionCommand, sublime_plugin.ApplicationCommand):
         except OSError as e:
             error_message(e.errno)
         else:
-            sublime.status_message(messages.message("deleted", session_name))
+            sublime.status_message(messages.message('deleted', session_name))
