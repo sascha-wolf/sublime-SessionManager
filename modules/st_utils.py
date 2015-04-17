@@ -3,6 +3,14 @@ import sublime
 from os import path
 
 
+def close_windows(windows = None):
+    if not windows:
+        windows = sublime.windows()
+
+    for window in windows:
+        window.run_command('close_window')
+
+
 def open_window():
     sublime.run_command("new_window")
     return sublime.active_window()

@@ -15,9 +15,14 @@ class Session:
             [Window.save(w) for w in st_windows]
         )
 
-    def load(self):
+    def load(self, replace):
+        open_windows = sublime.windows()
+
         for window in self.windows:
             window.load()
+
+        if replace:
+            st_utils.close_windows(open_windows)
 
 
 class Window:

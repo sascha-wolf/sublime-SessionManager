@@ -10,5 +10,10 @@
 	{
 		"caption": "Session Manager: Delete Session",
 		"command": "delete_session"
+	},
+	{
+		"caption": "Session Manager: Replace Session",
+		"command": "load_session",
+		"args": { "replace": true }
 	}
 ]
