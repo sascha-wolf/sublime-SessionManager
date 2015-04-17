@@ -57,7 +57,8 @@ class SaveSession(sublime_plugin.ApplicationCommand):
 
 
 class ListSessionCommand:
-    def run(self):
+    def run(self, **args):
+        self.args = args
         self.session_names = serialize.available()
         if not self.session_names:
             sublime.message_dialog(messages.message("no_sessions"))
@@ -82,7 +83,13 @@ class LoadSession(ListSessionCommand, sublime_plugin.ApplicationCommand):
         except OSError as e:
             error_message(e.errno)
         else:
-            session.load()
+            session.load(self.should_replace())
+
+    def should_replace(self):
+        try:
+            return self.args['replace']
+        except KeyError:
+            return False
 
 
 class DeleteSession(ListSessionCommand, sublime_plugin.ApplicationCommand):
