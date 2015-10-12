@@ -15,5 +15,9 @@
 		"caption": "Session Manager: Replace Session",
 		"command": "load_session",
 		"args": { "replace": true }
+	},
+	{
+		"caption": "Session Manager: Save Window",
+		"command": "save_window"
 	}
 ]

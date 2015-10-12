@@ -31,13 +31,16 @@ class SaveSession(sublime_plugin.ApplicationCommand):
         nameformat = settings.get('session_name_format')
         return datetime.now().strftime(nameformat)
 
+    def get_artifact(self):
+        return sublime.windows()
+
     def save_session(self, session_name):
         if not serialize.is_valid(session_name):
             error_message('invalid_name', session_name)
             self.run()
             return
 
-        session = Session.save(session_name, sublime.windows())
+        session = Session.save(session_name, self.get_artifact())
         try:
             serialize.dump(session_name, session)
         except OSError as e:
@@ -54,6 +57,11 @@ class SaveSession(sublime_plugin.ApplicationCommand):
     @staticmethod
     def is_saveable(window):
         return bool(window.views()) or bool(window.project_data())
+
+
+class SaveWindow(SaveSession):
+    def get_artifact(self):
+        return [sublime.active_window()]
 
 
 class ListSessionCommand:
