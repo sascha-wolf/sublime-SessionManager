@@ -50,8 +50,6 @@ class SaveSession(sublime_plugin.ApplicationCommand):
             #needed the "hit Tab" label due to https://github.com/SublimeTextIssues/Core/issues/1727           
             completions_list = [["{0}\t hit Tab to insert".format(item), item] for item in completions_list if item.startswith(prefix)]
             if len(completions_list) == 1 and completions_list[0][1] != prefix:
-                print(prefix)
-                print(completions_list)
                 completions_list += [["{0}\t hit Tab to insert".format(prefix), prefix]]
             return (
                         completions_list,
