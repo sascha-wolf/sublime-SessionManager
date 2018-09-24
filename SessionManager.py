@@ -56,7 +56,7 @@ class SaveSession(sublime_plugin.ApplicationCommand):
                         completions_list,
                         sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS
                     )
-        else: #if no prefix return empty list
+        else: #if no prefix return None
             return
 
     def input_changed(self, session_name_prefix):
