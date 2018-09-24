@@ -49,9 +49,6 @@ class SaveSession(sublime_plugin.ApplicationCommand):
             completions_list = get_sessions_list()
             #needed the "hit Tab" label due to https://github.com/SublimeTextIssues/Core/issues/1727           
             completions_list = [["{0}\t hit Tab to insert".format(item), item] for item in completions_list if item.startswith(prefix)]
-            if len(completions_list) == 1 and completions_list[0][1] != prefix:
-                #workaround for https://github.com/SublimeTextIssues/Core/issues/2425
-                completions_list += [["{0}\t hit Tab to insert".format(prefix), prefix]]
             return (
                         completions_list,
                         sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS
@@ -74,7 +71,7 @@ class SaveSession(sublime_plugin.ApplicationCommand):
             return
 
     def run_autocomplete(self):
-        self.input_panel.run_command('auto_complete')
+        self.input_panel.run_command('auto_complete', {"disable_auto_insert": True})
 
     def generate_name(self):
         nameformat = settings.get('session_name_format')
