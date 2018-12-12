@@ -8,6 +8,7 @@ from .modules import serialize
 from .modules import settings
 from .modules.session import Session
 
+on_query_completions_callbacks = {}
 
 def plugin_loaded():
     settings.load()
@@ -17,15 +18,60 @@ def error_message(error_key, *args):
     sublime.error_message(messages.error(error_key, *args))
 
 
+def get_sessions_list():
+    return serialize.available()
+
+
+class InputCompletionsListener(sublime_plugin.EventListener):
+    def on_query_completions(self, view, prefix, locations):
+        if view.id() in on_query_completions_callbacks.keys():
+            return on_query_completions_callbacks[view.id()](prefix, locations)
+
+
 class SaveSession(sublime_plugin.ApplicationCommand):
+    input_panel = None
+
     def run(self):
-        sublime.active_window().show_input_panel(
+        self.input_panel = sublime.active_window().show_input_panel(
             messages.dialog("session_name"),
             self.generate_name(),
             on_done=self.save_session,
-            on_change=None,
+            on_change=self.input_changed,
             on_cancel=None
         )
+        self.register_callbacks()
+
+    def register_callbacks(self):
+        on_query_completions_callbacks[self.input_panel.id()] = lambda prefix, locations: self.on_query_completions(prefix, locations)
+
+    def on_query_completions(self, prefix, locations):
+        if len(prefix) > 0:
+            completions_list = get_sessions_list()
+            #needed the "hit Tab" label due to https://github.com/SublimeTextIssues/Core/issues/1727           
+            completions_list = [["{0}\t hit Tab to insert".format(item), item] for item in completions_list if item.startswith(prefix)]
+            return (
+                        completions_list,
+                        sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS
+                    )
+        else: #if no prefix return None
+            return
+
+    def input_changed(self, session_name_prefix):
+        """
+            on input changed open autocomplete menu with a delay
+        """
+        if len(session_name_prefix) > 0 and \
+        self.input_panel and \
+        self.input_panel.command_history(0)[0] not in ['insert_completion', 'insert_best_completion']: #remove the looping
+            if self.input_panel.is_auto_complete_visible():
+                self.input_panel.run_command('hide_auto_complete')
+            delay = 500
+            sublime.set_timeout(lambda: self.run_autocomplete(), delay)
+        else:
+            return
+
+    def run_autocomplete(self):
+        self.input_panel.run_command('auto_complete', {"disable_auto_insert": True})
 
     def generate_name(self):
         nameformat = settings.get('session_name_format')
@@ -58,7 +104,7 @@ class SaveSession(sublime_plugin.ApplicationCommand):
 
 class ListSessionCommand:
     def run(self):
-        self.session_names = serialize.available()
+        self.session_names = get_sessions_list()
         if not self.session_names:
             sublime.message_dialog(messages.message("no_sessions"))
             return
