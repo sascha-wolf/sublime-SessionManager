@@ -77,6 +77,4 @@ These are the features I'm planning to add in the future:
 
 If you think I should add some other features, then don't hesitate to open an issue.
 
-And if you want to make a donation, you can find me on [Gratipay](https://gratipay.com/). Thank you in advance!
-
 __Happy session saving!__
